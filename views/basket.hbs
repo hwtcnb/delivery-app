@@ -1,0 +1,47 @@
+<script>
+    function deleteAllCookies() {
+        const cookies = document.cookie.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
+            const eqPos = cookie.indexOf("=");
+            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+    }
+</script>
+<h2>Basket</h2>
+{{#if empty}}
+    <p>Basket is empty!</p>
+{{else}}
+    <form>
+        <div class="card">
+            <div class="row">
+                {{#each products}}
+                    <div class="col s12 m3">
+                        <div class="card" id="{{@index}}">
+                            <div class="card-image">
+                                <img alt="image" src="data:image/png;base64,{{this.picture}}" width="250" height="250">
+                                <button onclick="document.cookie = `{{@index}}=`;console.log(document.cookie);alert('Deleted!');location.reload()"
+                                        class="btn-floating halfway-fab waves-effect waves-light red"><i
+                                        class="large material-icons">-</i></button>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">{{this.name}}</span>
+                                <span class="grey-text">{{this.shopName}}</span>
+                                <p>{{this.price}}$</p>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="card-content">
+                <p>Total price: {{sum}}$</p><br>
+                <button class="btn btn-large red" onclick="deleteAllCookies(); alert('Ordered!'); location.reload()">Order</button>
+            </div>
+        </div>
+    </form>
+{{/if}}
+
+
+
